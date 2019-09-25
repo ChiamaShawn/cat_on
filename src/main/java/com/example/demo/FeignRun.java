@@ -1,12 +1,9 @@
 package com.example.demo;
 
-import com.example.demo.models.Appointment;
-import com.example.demo.models.Lecturer;
+import com.example.demo.models.Attachment;
 import com.example.demo.models.Student;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 public class FeignRun implements CommandLineRunner {
@@ -21,23 +18,19 @@ public class FeignRun implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         // Registering a student - ID = 5
-        Student reg = feignClient.registerStudent(new Student("94566", "Ian"));
+        Student reg = feignClient.registerStudent(new Student("94337", "Shawn"));
         System.out.println("Created the following: " + reg);
 
-        //Find Registered Student
-        Student find = feignClient.findByName("94566");
-        System.out.println("Found your request: " + find);
+        // Request attachment
+        Attachment request = feignClient.createAttachment(43L);
+        System.out.println(request);
 
-        // Get all lecs
-        List<Lecturer> all = feignClient.getAll();
-        System.out.println("All Lecs: " + all);
+        //Patch Student
+        Attachment patchAttachment = feignClient.patchAttachment(43L, 14L);
 
-        //Book an appointment
-        Appointment schedule = feignClient.book(new Appointment(5L, 1L));
-        System.out.println("Appointment: " + schedule);
+        //Delete Application
+        Attachment deleteAttached = feignClient.deleteAttachment(43L, 14L, 7L);
+        System.out.println(request);
 
-        //Confirm booking
-        Appointment confirmation = feignClient.confirm(5L, 6L);
-        System.out.println("Confirmed: " + confirmation);
     }
 }
